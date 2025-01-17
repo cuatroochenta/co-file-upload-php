@@ -1,0 +1,36 @@
+{
+    "name": "cuatroochenta/fileupload",
+    "description": "Librería de apoyo para el almacenamiento de archivos",
+    "type": "library",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "aws/aws-sdk-php": "^3.334"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Cuatroochenta\\FileUpload\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cuatroochenta\\FileUpload\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "codeception/codeception": "5.1.2",
+        "codeception/module-asserts": "3.0.0",
+        "fakerphp/faker": "v1.23.1",
+        "phpstan/phpstan": "1.10.67",
+        "psalm/plugin-symfony": "5.1.0",
+        "squizlabs/php_codesniffer": "3.9.1",
+        "symfony/dotenv": "v7.1.1",
+        "thecodingmachine/phpstan-safe-rule": "1.2.0",
+        "vimeo/psalm": "5.23.1"
+    }
+}
