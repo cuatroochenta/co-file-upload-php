@@ -7,7 +7,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.2",
-        "aws/aws-sdk-php": "^3.334",
+        "aws/aws-sdk-php": "^3.369.3",
         "thecodingmachine/safe": "^2.5"
     },
     "config": {
