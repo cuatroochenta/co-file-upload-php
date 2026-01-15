@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.5.0@38fc8444edf0cebc9205296ee6e30e906ade783b">
+  <file src="src/Domain/Model/Storage/FileStorage.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[deleteFile]]></code>
+      <code><![CDATA[generatePresignedGetFileUrl]]></code>
+      <code><![CDATA[generatePresignedUploadFileUrl]]></code>
+      <code><![CDATA[getFileKeyFromWebhookData]]></code>
+      <code><![CDATA[listFiles]]></code>
+      <code><![CDATA[uploadFile]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Domain/Model/VO/FileKey.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Domain/Model/VO/FileName.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Infrastructure/Storage/S3/S3FileStorage.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$files]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array<string, mixed>]]></code>
+    </InvalidReturnType>
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array<string, mixed>]]></code>
+    </LessSpecificImplementedReturnType>
+    <MixedArrayAccess>
+      <code><![CDATA[$file['Key']]]></code>
+      <code><![CDATA[$file['Size']]]></code>
+      <code><![CDATA[$webhookData['Records'][0]]]></code>
+      <code><![CDATA[$webhookData['Records'][0]['s3']]]></code>
+      <code><![CDATA[$webhookData['Records'][0]['s3']['object']]]></code>
+      <code><![CDATA[$webhookData['Records'][0]['s3']['object']['key']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$key]]></code>
+    </MixedAssignment>
+    <MixedReturnStatement>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$result['ObjectURL'] ?? throw new UploadFileException()]]></code>
+      <code><![CDATA[$result['ObjectURL'] ?? throw new UploadFileException()]]></code>
+    </MixedReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[$result['ObjectURL'] ?? throw new UploadFileException()]]></code>
+    </NullableReturnStatement>
+    <PossiblyNullIterator>
+      <code><![CDATA[$contents['Contents']]]></code>
+    </PossiblyNullIterator>
+    <UnusedClass>
+      <code><![CDATA[S3FileStorage]]></code>
+    </UnusedClass>
+  </file>
+</files>
