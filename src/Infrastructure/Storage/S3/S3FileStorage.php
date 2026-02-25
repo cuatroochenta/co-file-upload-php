@@ -117,6 +117,57 @@ class S3FileStorage implements FileStorage
         }
     }
 
+    public function deleteFilesDirectory(Prefix $prefix): bool
+    {
+        try {
+            $continuationToken = null;
+            $deletedAny = false;
+            $params = [
+                'Bucket' => $this->config['bucket'],
+                'Prefix' => (string)$prefix,
+                'MaxKeys' => 1000
+            ];
+
+            do {
+                if ($continuationToken !== null) {
+                    $params['ContinuationToken'] = $continuationToken;
+                }
+
+                $result = $this->s3Client->listObjectsV2($params);
+
+                $contents = $result['Contents'] ?? [];
+
+                if (!empty($contents)) {
+                    $toDelete = array_map(function ($obj) {
+                        return ['Key' => $obj['Key']];
+                    }, $contents);
+
+                    $this->s3Client->deleteObjects([
+                        'Bucket' => $this->config['bucket'],
+                        'Delete' => [
+                            'Objects' => $toDelete,
+                        ],
+                    ]);
+
+                    $deletedAny = true;
+                }
+
+                $continuationToken = ($result['IsTruncated'] ?? false)
+                    ? ($result['NextContinuationToken'] ?? null)
+                    : null;
+
+            } while ($continuationToken !== null);
+
+            return $deletedAny;
+        } catch (S3Exception $e) {
+            if ($e->getAwsErrorCode() == 'NotFound') {
+                throw new FileNotFoundException();
+            } else {
+                throw new DeleteFileException();
+            }
+        }
+    }
+
     /**
      * @throws ListFilesException
      * @return array<string, mixed>
@@ -124,20 +175,35 @@ class S3FileStorage implements FileStorage
     public function listFiles(?Prefix $prefix = null): array
     {
         try {
-            $contents = $this->s3Client->listObjectsV2([
+            $files = [];
+            $continuationToken = null;
+
+            $params = [
                 'Bucket' => $this->config['bucket'],
                 'Prefix' => (string)$prefix
-            ]);
+            ];
 
-            $files = [];
-            if (isset($contents['Contents'])) {
-                foreach ($contents['Contents'] as $file) {
-                    $files[] = [
-                        'key' => $file['Key'],
-                        'size' => $file['Size']
-                    ];
+            do {
+                if ($continuationToken !== null) {
+                    $params['ContinuationToken'] = $continuationToken;
                 }
-            }
+
+                $result = $this->s3Client->listObjectsV2($params);
+
+                if (isset($result['Contents'])) {
+                    foreach ($result['Contents'] as $file) {
+                        $files[] = [
+                            'Key' => $file['Key'],
+                            'Size' => $file['Size']
+                        ];
+                    }
+                }
+
+                $continuationToken = ($result['IsTruncated'] ?? false)
+                    ? ($result['NextContinuationToken'] ?? null)
+                    : null;
+
+            } while ($continuationToken !== null);
 
             return $files;
         } catch (S3Exception) {
