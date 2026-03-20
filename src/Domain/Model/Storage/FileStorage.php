@@ -27,12 +27,16 @@ interface FileStorage
         FileKey $fileKey,
     ): bool;
 
+    public function deleteFilesDirectory(
+        Prefix $prefix
+    ): bool;
+
     /** @param array<string, mixed> $webhookData */
     public function getFileKeyFromWebhookData(
         array $webhookData
     ): string;
 
-    /** @return array<array<string, string>> */
+    /** @return array<array<string, mixed>> */
     public function listFiles(
         ?Prefix $prefix = null
     ): array;
