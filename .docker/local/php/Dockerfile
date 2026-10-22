@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:1.1.2-php8.3.6-bookworm
+FROM dunglas/frankenphp:1.13.2-php8.3.36-bookworm
 
 ENV XDEBUG_MODE=debug
 
